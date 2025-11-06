@@ -33,13 +33,19 @@ async def cmd_start(msg: Message):
             text.append(f"До след. уровня: {prof.next_level.num} — {pct}% из {prof.next_level.xp_required} XP")
         text.append("\nКоманды: /tasks /me /top [week|month|all]")
         if is_manager(u):
-            text.append("Команда менеджера: /log <@user|id> <код|название> [count]")
+            text.append("Команда менеджера: <code>/log &lt;@user|id&gt; &lt;код|название&gt; [count]</code>")
         await msg.answer("\n".join(text))
 
 @router.message(Command("help"))
 async def cmd_help(msg: Message):
-    await msg.answer("<b>Справка</b>\n• /tasks — список заданий\n• /me — мой профиль\n• /top [week|month|all] — топ игроков\n• /log <@user|id> <код|название> [count] — менеджеры учитывают выполнение\n• /promote <id> — super admin назначает менеджера")
-
+   await msg.answer(
+    "<b>Справка</b>\n"
+    "• /tasks — список заданий\n"
+    "• /me — мой профиль\n"
+    "• /top [week|month|all] — топ игроков\n"
+    "• /log <code>&lt;@user|id&gt; &lt;код|название&gt; [count]</code> — менеджеры учитывают выполнение\n"
+    "• /promote <code>&lt;id&gt;</code> — super admin назначает менеджера"
+)
 @router.message(Command("tasks"))
 async def cmd_tasks(msg: Message):
     with SessionLocal() as db:
@@ -79,7 +85,7 @@ async def cmd_promote(msg: Message):
     if not settings.super_admin_id or msg.from_user.id != settings.super_admin_id:
         await msg.answer("Недостаточно прав."); return
     parts = (msg.text or "").split()
-    if len(parts) < 2: await msg.answer("Укажите Telegram ID пользователя: /promote <id>"); return
+    if len(parts) < 2: await msg.answer("Укажите Telegram ID пользователя: <code>/promote &lt;id&gt;</code>"); return
     try: uid = int(parts[1])
     except ValueError: await msg.answer("ID должен быть числом."); return
     with SessionLocal() as db:
@@ -96,7 +102,7 @@ async def cmd_log(msg: Message):
         if not (manager.is_manager or manager.tg_id in settings.manager_id_set):
             await msg.answer("Команда доступна только менеджерам."); return
         parts = (msg.text or "").split(maxsplit=3)
-        if len(parts) < 3: await msg.answer("Формат: /log <@user|id> <код|часть названия> [count]"); return
+        if len(parts) < 3: await msg.answer("Формат: <code>/log &lt;@user|id&gt; &lt;код|часть названия&gt; [count]</code>"); return
         who_raw, task_raw = parts[1], parts[2]
         count = 1
         if len(parts) >= 4:
