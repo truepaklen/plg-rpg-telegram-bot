@@ -1,6 +1,7 @@
 from __future__ import annotations
 from aiogram import Bot, Router
 from aiogram.enums import ParseMode
+from aiogram.client.default import DefaultBotProperties
 from aiogram.filters import Command
 from aiogram.types import Message
 from sqlalchemy import select
