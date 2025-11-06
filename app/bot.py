@@ -10,7 +10,10 @@ from .models import User, Task, Level
 from .logic import ensure_user, get_profile, find_task, award, leaderboard
 from aiogram.client.default import DefaultBotProperties
 
-bot = Bot(token=settings.telegram_token, parse_mode=ParseMode.HTML)
+bot = Bot(
+    token=settings.telegram_token,
+    default=DefaultBotProperties(parse_mode=ParseMode.HTML),
+)
 router = Router()
 
 def is_manager(user: User) -> bool:
