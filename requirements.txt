@@ -1,0 +1,10 @@
+fastapi>=0.111
+uvicorn[standard]>=0.30
+aiogram>=3.6
+SQLAlchemy>=2.0
+pydantic>=2.7
+python-dotenv>=1.0
+pandas>=2.2
+openpyxl>=3.1
+apscheduler>=3.10
+python-dateutil>=2.9
